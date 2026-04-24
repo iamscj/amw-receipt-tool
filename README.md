@@ -14,7 +14,7 @@ Digital receipt management system for AMW Owners Interim Forum.
 
 ---
 
-## ✨ What You Can Do
+## 🛠️ What You Can Do
 
 ### 1. Create Receipts
 - Auto-numbered receipts (starts from 1, 2, 3...)
