@@ -2,13 +2,14 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, AUTH_EMAIL } from '../services/auth';
-import { FileText } from 'lucide-react';
+import { FileText, Eye, EyeOff } from 'lucide-react';
 import '../styles/Login.css';
 
 export function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -63,18 +64,29 @@ export function Login() {
             <label htmlFor="password" className="form-label">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={loading}
-              className="form-input"
-              placeholder="Enter password"
-              autoComplete="current-password"
-              autoFocus
-            />
+            <div className="password-input-wrapper">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={loading}
+                className="form-input password-input"
+                placeholder="Enter password"
+                autoComplete="current-password"
+                autoFocus
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+                disabled={loading}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
 
           {error && <div className="error-message">{error}</div>}
