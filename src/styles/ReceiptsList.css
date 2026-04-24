@@ -486,6 +486,10 @@
     border-top: 1px solid #e5e7eb;
   }
 
+  .actions-cell::before {
+    margin-bottom: 0.75rem !important;
+  }
+
   .action-buttons {
     justify-content: flex-start;
   }
