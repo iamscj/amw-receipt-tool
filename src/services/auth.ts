@@ -3,7 +3,25 @@ import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebas
 import type { User } from 'firebase/auth';
 import { auth } from '../config/firebase';
 
-export const AUTH_EMAIL = 'amw@internal.com';
+// User credentials
+export const ADMIN_EMAIL = 'admin@amw.com';
+export const VIEWER_EMAIL = 'viewer@amw.com';
+
+export type UserRole = 'admin' | 'viewer';
+
+// Get user role based on email
+export function getUserRole(email: string | null): UserRole | null {
+  if (!email) return null;
+  if (email === ADMIN_EMAIL) return 'admin';
+  if (email === VIEWER_EMAIL) return 'viewer';
+  return null;
+}
+
+// Check if current user is admin
+export function isAdmin(): boolean {
+  const user = auth.currentUser;
+  return user?.email === ADMIN_EMAIL;
+}
 
 /**
  * Check if user is authenticated
@@ -24,13 +42,15 @@ export function getCurrentUser(): User | null {
  */
 export async function login(email: string, password: string): Promise<boolean> {
   try {
-    // Verify email matches expected
-    if (email.toLowerCase().trim() !== AUTH_EMAIL.toLowerCase()) {
+    const emailLower = email.toLowerCase().trim();
+
+    // Verify email is either admin or viewer
+    if (emailLower !== ADMIN_EMAIL.toLowerCase() && emailLower !== VIEWER_EMAIL.toLowerCase()) {
       return false;
     }
 
     // Sign in with Firebase Auth
-    await signInWithEmailAndPassword(auth, AUTH_EMAIL, password);
+    await signInWithEmailAndPassword(auth, email.trim(), password);
     return true;
   } catch (error: any) {
     console.error('Login error:', error);

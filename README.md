@@ -9,36 +9,55 @@ Digital receipt management system for AMW Owners Interim Forum.
 **Web App:** https://amw-receipt-tool.vercel.app
 
 **Login:**
-- Email: `amw@internal.com`
-- Password: [Contact admin]
+1. Select role: **Admin** or **Viewer**
+2. Enter password
+3. Click Login
+
+**Passwords:**
+- Admin password: [Contact admin]
+- Viewer password: [Contact admin]
 
 ---
 
 ## 🛠️ What You Can Do
 
-### 1. Create Receipts
-- Auto-numbered receipts (starts from 1, 2, 3...)
-- Fill in owner details, wing, flat, amount
-- Amount automatically converts to words (Indian format)
-- Download PDF receipt instantly
+### Admin Users (Full Access):
 
-### 2. View All Receipts
-- See all receipts in one table
-- Search and browse easily
-- Mobile-friendly view
+1. **Create Receipts**
+   - Auto-numbered receipts (1, 2, 3...)
+   - Fill in owner details, wing, flat, amount
+   - Amount converts to words automatically (Indian format)
+   - Download PDF instantly
 
-### 3. Download Receipts
-- Download individual receipt as PDF
-- Export all receipts to single PDF
+2. **View All Receipts**
+   - See all receipts in table format
+   - Search and browse easily
+   - Mobile-friendly view
 
-### 4. Edit Receipts
-- Fix mistakes in any receipt
-- Update owner name, amount, payment mode, etc.
-- Changes saved instantly
+3. **Download Receipts**
+   - Download individual receipt as PDF
+   - Export all receipts to single PDF
 
-### 5. Delete Receipts
-- Remove incorrect receipts
-- Confirmation before deletion
+4. **Edit Receipts**
+   - Fix mistakes in any receipt
+   - Update owner name, amount, mode, etc.
+   - Changes saved instantly
+
+5. **Delete Receipts**
+   - Remove incorrect receipts
+   - Confirmation before deletion
+
+### Viewer Users (Read-Only):
+
+1. **View All Receipts**
+   - Browse all receipts
+   - See all details
+
+2. **Download Receipts**
+   - Download individual receipt as PDF
+   - Export all receipts to PDF
+
+*Note: Viewers cannot create, edit, or delete receipts.*
 
 ---
 

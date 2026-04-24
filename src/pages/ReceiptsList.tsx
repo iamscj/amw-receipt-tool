@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Download, FileText, Edit2, Trash2, Download as DownloadIcon, X } from 'lucide-react';
 import { getAllReceipts, updateReceipt, deleteReceipt, type ReceiptDocument } from '../services/firebase';
+import { isAdmin } from '../services/auth';
 import { pdf } from '@react-pdf/renderer';
 import { AllReceiptsPDF } from '../components/AllReceiptsPDF';
 import { ReceiptPDF } from '../components/ReceiptPDF';
@@ -13,6 +14,7 @@ export function ReceiptsList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isExporting, setIsExporting] = useState(false);
+  const userIsAdmin = isAdmin();
 
   // Edit modal state
   const [editingReceipt, setEditingReceipt] = useState<ReceiptDocument | null>(null);
@@ -247,20 +249,24 @@ export function ReceiptsList() {
                       >
                         <DownloadIcon size={16} />
                       </button>
-                      <button
-                        onClick={() => handleEditClick(receipt)}
-                        className="action-btn edit-btn"
-                        title="Edit"
-                      >
-                        <Edit2 size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteClick(receipt)}
-                        className="action-btn delete-btn"
-                        title="Delete"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                      {userIsAdmin && (
+                        <>
+                          <button
+                            onClick={() => handleEditClick(receipt)}
+                            className="action-btn edit-btn"
+                            title="Edit"
+                          >
+                            <Edit2 size={16} />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteClick(receipt)}
+                            className="action-btn delete-btn"
+                            title="Delete"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </td>
                 </tr>

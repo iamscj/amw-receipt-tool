@@ -1,11 +1,12 @@
 import { FileText, LogOut } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { logout } from '../services/auth';
+import { logout, isAdmin } from '../services/auth';
 
 export function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const isHomePage = location.pathname === '/';
+  const userIsAdmin = isAdmin();
 
   const handleLogout = async () => {
     await logout();
@@ -27,9 +28,11 @@ export function Header() {
             View All Receipts
           </Link>
         ) : (
-          <Link to="/" className="nav-link">
-            Create New Receipt
-          </Link>
+          userIsAdmin && (
+            <Link to="/" className="nav-link">
+              Create New Receipt
+            </Link>
+          )
         )}
 
         <button onClick={handleLogout} className="logout-button">

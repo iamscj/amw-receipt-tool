@@ -47,7 +47,8 @@ VITE_FIREBASE_APP_ID
 
 2. **Authentication**
    - Method: Email/Password
-   - User: `amw@internal.com`
+   - **Admin User:** `admin@amw.com` (Full access: Create, Edit, Delete)
+   - **Viewer User:** `viewer@amw.com` (Read-only: View, Download)
 
 ### Firestore Rules
 ```javascript
@@ -127,14 +128,39 @@ src/
 
 ---
 
-## 🔐 Authentication Flow
+## 🔐 Authentication & Authorization
 
+### Authentication Flow
 1. User visits app → Redirected to `/login`
-2. Enter email (`amw@internal.com`) and password
-3. Firebase Auth verifies credentials
-4. On success → Session stored, access granted
-5. Protected routes check auth state
-6. Logout → Clear session, redirect to login
+2. Select role from dropdown (Admin or Viewer)
+3. Enter password
+4. App maps role to email internally:
+   - Admin → `admin@amw.com`
+   - Viewer → `viewer@amw.com`
+5. Firebase Auth verifies credentials
+6. On success → Session stored, access granted
+7. Protected routes check auth state
+8. Logout → Clear session, redirect to login
+
+### Role-Based Access Control
+
+**Admin User (`admin@amw.com`):**
+- ✅ Create receipts
+- ✅ View all receipts
+- ✅ Edit receipts
+- ✅ Delete receipts
+- ✅ Download receipts
+- ✅ Export all receipts
+
+**Viewer User (`viewer@amw.com`):**
+- ❌ Create receipts
+- ✅ View all receipts
+- ❌ Edit receipts
+- ❌ Delete receipts
+- ✅ Download receipts
+- ✅ Export all receipts
+
+Roles are determined by email address in client-side code.
 
 ---
 
@@ -213,9 +239,17 @@ vercel --prod
 
 ### Change Password
 1. Firebase Console → Authentication → Users
-2. Find `amw@internal.com`
+2. Find user (`admin@amw.com` or `viewer@amw.com`)
 3. Click ⋮ → Reset password
 4. Enter new password → Save
+
+### Add New Users
+1. Firebase Console → Authentication → Users
+2. Click "Add user"
+3. Enter email and password
+4. Role is auto-assigned based on email:
+   - `admin@amw.com` → Admin
+   - `viewer@amw.com` → Viewer
 
 ### View/Export Data
 1. Firebase Console → Firestore Database

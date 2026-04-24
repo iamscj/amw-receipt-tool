@@ -1,29 +1,32 @@
 import { useState } from 'react';
-import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login, AUTH_EMAIL } from '../services/auth';
+import { login, ADMIN_EMAIL, VIEWER_EMAIL } from '../services/auth';
 import { FileText, Eye, EyeOff } from 'lucide-react';
 import '../styles/Login.css';
 
 export function Login() {
+  const [role, setRole] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      const success = await login(AUTH_EMAIL, password);
+      // Map role to email
+      const email = role === 'admin' ? ADMIN_EMAIL : VIEWER_EMAIL;
+
+      const success = await login(email, password);
 
       if (success) {
         navigate('/');
       } else {
-        setError('Invalid email or password');
+        setError('Invalid credentials');
         setPassword('');
       }
     } catch (err) {
@@ -47,17 +50,21 @@ export function Login() {
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <label htmlFor="email" className="form-label">
-              Email
+            <label htmlFor="role" className="form-label">
+              Login As
             </label>
-            <input
-              type="email"
-              id="email"
-              value={AUTH_EMAIL}
-              disabled
-              className="form-input form-input-disabled"
-              autoComplete="email"
-            />
+            <select
+              id="role"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              required
+              disabled={loading}
+              className="form-input"
+            >
+              <option value="">Select Role</option>
+              <option value="admin">Admin</option>
+              <option value="viewer">Viewer</option>
+            </select>
           </div>
 
           <div className="form-group">
